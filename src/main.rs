@@ -1,6 +1,7 @@
 use std::env::args;
 
-mod add;
+mod cmds;
+use cmds::add;
 
 static USAGE: &str = r#"usage :
 -add [username] [pswd] : add password using username [key] and password [value]

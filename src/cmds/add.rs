@@ -1,30 +1,9 @@
 use std::{
     collections::HashMap,
-    env::{current_dir, var},
     error::Error,
-    fs::{File, OpenOptions},
-    path::PathBuf,
 };
 
-fn quick_pswd_file(create: bool) -> Result<File, Box<dyn Error>> {
-    let pswd_path = match var("PSWD_FILE") {
-        Ok(p) => PathBuf::from(p),
-        Err(std::env::VarError::NotPresent) => {
-            let mut d = current_dir()?;
-            d.push("pswdlist");
-            d
-        }
-        Err(e) => return Err(e.into()),
-    };
-
-    let pswd_file = OpenOptions::new()
-        .write(true)
-        .create(create)
-        .read(true)
-        .open(pswd_path)?;
-
-    Ok(pswd_file)
-}
+use super::quick_pswd_file::quick_pswd_file as gen_pswdfile;
 
 pub fn add(args: &Vec<String>) -> Result<(), Box<dyn Error>> {
     let username = match args.get(2) {
@@ -36,7 +15,7 @@ pub fn add(args: &Vec<String>) -> Result<(), Box<dyn Error>> {
         None => return Err("password excepted".into()),
     };
 
-    let pswd_file = quick_pswd_file(true)?;
+    let pswd_file = gen_pswdfile(true)?;
     pswd_file.sync_all()?;
     let mut pswd_list: HashMap<String, String> = match pswd_file.metadata()?.len() {
         0 => HashMap::new(),
