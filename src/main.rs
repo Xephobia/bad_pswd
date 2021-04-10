@@ -18,7 +18,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             std::process::exit(1)
         }
         Some("-add") => {
-            add::add(&args)?;
+            let username = match args.get(2) {
+                Some(u) => u.to_owned(),
+                None => return Err("username excepted".into()),
+            };
+            let pswd = match args.get(3) {
+                Some(p) => p.to_owned(),
+                None => return Err("password excepted".into()),
+            };
+
+            add::add(username, pswd)?;
         }
         Some("-remove") => {}
         Some("-gen") => {}

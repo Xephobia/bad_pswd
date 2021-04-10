@@ -1,20 +1,8 @@
-use std::{
-    collections::HashMap,
-    error::Error,
-};
+use std::{collections::HashMap, error::Error};
 
 use super::quick_pswd_file::quick_pswd_file as gen_pswdfile;
 
-pub fn add(args: &Vec<String>) -> Result<(), Box<dyn Error>> {
-    let username = match args.get(2) {
-        Some(username) => username,
-        None => return Err("username excepted".into()),
-    };
-    let pswd = match args.get(3) {
-        Some(pswd) => pswd,
-        None => return Err("password excepted".into()),
-    };
-
+pub fn add(username: String, pswd: String) -> Result<(), Box<dyn Error>> {
     let pswd_file = gen_pswdfile(true)?;
     pswd_file.sync_all()?;
     let mut pswd_list: HashMap<String, String> = match pswd_file.metadata()?.len() {
