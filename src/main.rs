@@ -2,6 +2,7 @@ use std::env::args;
 
 mod cmds;
 use cmds::add;
+use cmds::remove;
 
 static USAGE: &str = r#"usage :
 -add [username] [pswd] : add password using username [key] and password [value]
@@ -29,7 +30,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
             add::add(username, pswd)?;
         }
-        Some("-remove") => {}
+        Some("-remove") => {
+            let username = match args.get(2) {
+                Some(u) => u.to_owned(),
+                None => return Err("username excepted".into()),
+            };
+
+            remove::remove(username)?;
+        }
         Some("-gen") => {}
         Some(other) => {}
     }
