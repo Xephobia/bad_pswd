@@ -4,10 +4,10 @@ mod cmds;
 use cmds::{add, gen, get, remove};
 
 static USAGE: &str = r#"usage :
--add [username] [pswd] : add password using username [key] and password [value]
+-add [username] [pswd] : add password using username and password
 -remove [username] : removes password matching username
 -get [username] : get a password matching username
--gen : generates a random password"#;
+-gen [length] : generates a random password"#;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Vec<_> = args().collect();
