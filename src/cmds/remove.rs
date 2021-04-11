@@ -1,13 +1,11 @@
-use std::{collections::HashMap, error::Error};
+use std::{collections::BTreeMap, error::Error};
 
 use super::quick_pswd_file::quick_pswd_file as gen_pswdfile;
 
 pub fn remove(username: String) -> Result<(), Box<dyn Error>> {
     let pswd_file = gen_pswdfile(false)?;
 
-    let mut pswd_list = dbg!(bincode::deserialize_from::<_, HashMap<String, String>>(
-        &pswd_file
-    )?);
+    let mut pswd_list = bincode::deserialize_from::<_, BTreeMap<String, String>>(&pswd_file)?;
     if let None = pswd_list.remove_entry(&username) {
         return Err(format!("{} was not found", username).into());
     }
