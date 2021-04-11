@@ -18,8 +18,8 @@ pub fn quick_pswd_file(create: bool) -> Result<File, Box<dyn Error>> {
 
     let pswd_file = OpenOptions::new()
         .write(true)
-        .create(create)
         .read(true)
+        .create(create)
         .open(pswd_path)?;
 
     Ok(pswd_file)
