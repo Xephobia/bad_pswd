@@ -1,8 +1,7 @@
 use std::env::args;
 
 mod cmds;
-use cmds::add;
-use cmds::remove;
+use cmds::{add, gen, remove};
 
 static USAGE: &str = r#"usage :
 -add [username] [pswd] : add password using username [key] and password [value]
@@ -38,8 +37,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
             remove::remove(username)?;
         }
-        Some("-gen") => {}
-        Some(other) => {}
+        Some("-get") => {}
+        Some("-gen") => {
+            let len: usize = match args.get(2) {
+                Some(l) => l.parse()?,
+                None => return Err("length excepted".into()),
+            };
+
+            println!("{}", gen::gen(len)?);
+        }
+        Some(other) => return Err(format!("{} option not found", other).into()),
     }
 
     Ok(())
