@@ -1,4 +1,4 @@
-# bad password manager, supposed bad
+# bad password manager, supposed bad.
 
 Usage : `bad_pswd.exe [option] (arguments)`
 options :
